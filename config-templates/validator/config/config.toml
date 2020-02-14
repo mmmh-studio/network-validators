@@ -8,7 +8,8 @@
 proxy_app = "tcp://127.0.0.1:26658"
 
 # A custom human readable name for this node
-moniker = "mmmh-validator"
+# TODO: figure out if we want the sentry and the actual validator to have the same moniker
+moniker = "${validator.moniker}"
 
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
@@ -161,7 +162,8 @@ external_address = ""
 seeds = "344e7c6cf62d26a635cc668e6dfbead96c7e0f43@52.57.29.196:26656,352bc356eabc1b908bef70cd6e644b6dd44923cb@35.158.255.161:26656,3e16af0cead27979e1fc3dac57d03df3c7a77acc@3.87.179.235:26656,ba3bacc714817218562f743178228f23678b2873@public-seed-node.cosmoshub.certus.one:26656,2626942148fd39830cb7a3acccb235fab0332d86@173.212.199.36:26656,3028c6ee9be21f0d34be3e97a59b093e15ec0658@91.205.173.168:26656,89e4b72625c0a13d6f62e3cd9d40bfc444cbfa77@34.65.6.52:26656"
 
 # Comma separated list of nodes to keep persistent connections to
-persistent_peers = ""
+# TODO: config needs a list of our sentry ndoes here
+persistent_peers = "${validator.sentries}"
 
 # UPNP port forwarding
 upnp = false
@@ -171,7 +173,7 @@ addr_book_file = "config/addrbook.json"
 
 # Set true for strict address routability rules
 # Set false for private or local networks
-addr_book_strict = true
+addr_book_strict = false
 
 # Maximum number of inbound peers
 max_num_inbound_peers = 40
@@ -192,7 +194,7 @@ send_rate = 5120000
 recv_rate = 5120000
 
 # Set true to enable the peer-exchange reactor
-pex = true
+pex = false
 
 # Seed mode, in which node constantly crawls the network and looks for
 # peers. If another node asks it for addresses, it responds and disconnects.
@@ -201,6 +203,7 @@ pex = true
 seed_mode = false
 
 # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
+# ommited on the validator node:
 private_peer_ids = ""
 
 # Toggle to disable guard against peers connecting from the same ip.
