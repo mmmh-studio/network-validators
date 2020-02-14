@@ -1,8 +1,7 @@
 ### Agenda
 
-[ ] review
-[ ] outline infrastructure tasks
-[ ]
+* [x] review
+* [x] outline infrastructure tasks
 
 ### Review
 
