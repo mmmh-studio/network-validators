@@ -34,7 +34,7 @@
 
 ### Action items
 
-[ ] Update business address in UpCloud @onr
-[ ] digitialise all documents @onr
-[ ] order YubiHSM @onr
-[ ] Finalise 2019 taxes @nr
+- [x] Update business address in UpCloud @onr
+- [ ] digitialise all documents @onr
+- [x] order YubiHSM @onr
+- [ ] Finalise 2019 taxes @nr
