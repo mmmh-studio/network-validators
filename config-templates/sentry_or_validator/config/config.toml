@@ -5,11 +5,11 @@
 
 # TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
-proxy_app = "tcp://127.0.0.1:26658"
+proxy_app = "${proxy_app}"
 
 # A custom human readable name for this node
 # TODO: figure out if we want the sentry and the actual validator to have the same moniker
-moniker = "${validator.moniker}"
+moniker = "${moniker}"
 
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
@@ -31,37 +31,37 @@ fast_sync = true
 db_backend = "goleveldb"
 
 # Database directory
-db_dir = "data"
+db_dir = "${db_dir}"
 
 # Output level for logging, including package level options
 log_level = "main:info,state:info,*:error"
 
 # Output format: 'plain' (colored text) or 'json'
-log_format = "plain"
+log_format = "json"
 
 ##### additional base config options #####
 
 # Path to the JSON file containing the initial validator set and other meta data
-genesis_file = "config/genesis.json"
+genesis_file = "${config_dir}/genesis.json"
 
 # Path to the JSON file containing the private key to use as a validator in the consensus protocol
-priv_validator_key_file = "config/priv_validator_key.json"
+priv_validator_key_file = "${config_dir}/priv_validator_key.json"
 
 # Path to the JSON file containing the last sign state of a validator
-priv_validator_state_file = "data/priv_validator_state.json"
+priv_validator_state_file = "${data_dir}/priv_validator_state.json"
 
 # TCP or UNIX socket address for Tendermint to listen on for
 # connections from an external PrivValidator process
-priv_validator_laddr = "${validator.kms_addr}"
+priv_validator_laddr = ""
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
-node_key_file = "config/node_key.json"
+node_key_file = "${config_dir}/node_key.json"
 
 # Mechanism to connect to the ABCI application: socket | grpc
 abci = "socket"
 
 # TCP or UNIX socket address for the profiling server to listen on
-prof_laddr = "localhost:6060"
+prof_laddr = "${prof_laddr}"
 
 # If true, query the ABCI app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
@@ -73,7 +73,7 @@ filter_peers = false
 [rpc]
 
 # TCP or UNIX socket address for the RPC server to listen on
-laddr = "tcp://127.0.0.1:26657"
+laddr = "${rpc.laddr}"
 
 # A list of origins a cross-domain request can be executed from
 # Default value '[]' disables cors support
@@ -150,7 +150,7 @@ tls_key_file = ""
 [p2p]
 
 # Address to listen for incoming connections
-laddr = "tcp://0.0.0.0:26656"
+laddr = "${p2p_laddr}"
 
 # Address to advertise to peers for them to dial
 # If empty, will use the same port as the laddr,
@@ -159,18 +159,19 @@ laddr = "tcp://0.0.0.0:26656"
 external_address = ""
 
 # Comma separated list of seed nodes to connect to
+# example that worked on the hub-3 mainnet:
 # seeds = "344e7c6cf62d26a635cc668e6dfbead96c7e0f43@52.57.29.196:26656,352bc356eabc1b908bef70cd6e644b6dd44923cb@35.158.255.161:26656,3e16af0cead27979e1fc3dac57d03df3c7a77acc@3.87.179.235:26656,ba3bacc714817218562f743178228f23678b2873@public-seed-node.cosmoshub.certus.one:26656,2626942148fd39830cb7a3acccb235fab0332d86@173.212.199.36:26656,3028c6ee9be21f0d34be3e97a59b093e15ec0658@91.205.173.168:26656,89e4b72625c0a13d6f62e3cd9d40bfc444cbfa77@34.65.6.52:26656"
-seeds = "${validator.seed_list}"
+seeds = "${seed_list}"
 
 # Comma separated list of nodes to keep persistent connections to
-# TODO: config needs a list of our sentry ndoes here
-persistent_peers = "${validator.sentries}"
+# Format: comma-separated list of nodeid@ip:port
+persistent_peers = "${persistent_peers}"
 
 # UPNP port forwarding
 upnp = false
 
 # Path to address book
-addr_book_file = "config/addrbook.json"
+addr_book_file = "${config_dir}/addrbook.json"
 
 # Set true for strict address routability rules
 # Set false for private or local networks
@@ -195,7 +196,7 @@ send_rate = 5120000
 recv_rate = 5120000
 
 # Set true to enable the peer-exchange reactor
-pex = false
+pex = ${pex}
 
 # Seed mode, in which node constantly crawls the network and looks for
 # peers. If another node asks it for addresses, it responds and disconnects.
@@ -204,8 +205,8 @@ pex = false
 seed_mode = false
 
 # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
-# ommited on the validator node:
-private_peer_ids = ""
+# Sentry needs to know the validator node id here (to not expose the IP)
+private_peer_ids = "${private_peer_ids}"
 
 # Toggle to disable guard against peers connecting from the same ip.
 allow_duplicate_ip = false
@@ -247,7 +248,7 @@ version = "v0"
 ##### consensus configuration options #####
 [consensus]
 
-wal_file = "data/cs.wal/wal"
+wal_file = "${data_dir}/cs.wal/wal"
 
 timeout_propose = "3s"
 timeout_propose_delta = "500ms"
